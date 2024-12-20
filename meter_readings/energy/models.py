@@ -9,7 +9,7 @@ class Customer(models.Model):
         return self.name
     
 class Meter(models.Model):
-    serial_number = models.CharField(max_length=100)
+    serial_number = models.CharField(max_length=100, unique=True)
     customer = models.ForeignKey(Customer, related_name='meters', on_delete=models.CASCADE)
     location = models.CharField(max_length=100, blank=True, null=True)
 

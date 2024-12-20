@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,3 +143,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = 'redis://redis:6379'
 CELERY_RESULT_BACKEND = 'redis://redis:6379'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'add-hourly-readings': {
+        'task': 'meter_readings.energy.tasks.add_hourly_readings',
+        # schedule every minute
+        'schedule': crontab(minute='*'),
+    },
+}
+
